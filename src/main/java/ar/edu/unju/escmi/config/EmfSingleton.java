@@ -1,0 +1,40 @@
+package ar.edu.unju.escmi.config;
+
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+/**
+ * Singleton que expone un EntityManagerFactory para la unidad de persistencia "tp8PU".
+ *
+ * Nota: El contenido fue generado como implementación típica cuando el archivo original
+ * no está disponible en el repositorio. Ajustar si tienes una versión específica.
+ */
+public class EmfSingleton {
+
+    private static final EntityManagerFactory emf = buildEntityManagerFactory();
+
+    private static EntityManagerFactory buildEntityManagerFactory() {
+        try {
+            return Persistence.createEntityManagerFactory("tp8PU");
+        } catch (Throwable ex) {
+            System.err.println("Initial EntityManagerFactory creation failed: " + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    /**
+     * Devuelve la instancia compartida de EntityManagerFactory.
+     */
+    public static EntityManagerFactory getInstance() {
+        return emf;
+    }
+
+    /**
+     * Cierra el factory si está abierto.
+     */
+    public static void close() {
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
+    }
+}
