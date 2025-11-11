@@ -14,7 +14,7 @@ public class MainApp {
     private static final ClienteDAO clienteDAO = new ClienteDAOImpl();
     private static final ProductoDAO productoDAO = new ProductoDAOImpl();
     private static final FacturaDAO facturaDAO = new FacturaDAOImpl();
-    private static final DetalleFacturaDAO detalleDAO = new DetalleFacturaDAOImpl();
+    // detalleDAO no es necesario actualmente (la relación se maneja por cascade desde Factura)
 
     public static void main(String[] args) {
         try {
