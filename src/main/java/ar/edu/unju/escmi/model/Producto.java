@@ -1,7 +1,6 @@
 package ar.edu.unju.escmi.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "productos")
@@ -11,21 +10,18 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    private String descripcion;
 
-    private BigDecimal precio;
+    private Double precioUnitario;
 
-    private int stock;
-
-    private boolean estado = true; // eliminación lógica
+    private Boolean estado = true;
 
     public Producto() {
     }
 
-    public Producto(String nombre, BigDecimal precio, int stock) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
+    public Producto(String descripcion, Double precioUnitario) {
+        this.descripcion = descripcion;
+        this.precioUnitario = precioUnitario;
         this.estado = true;
     }
 
@@ -33,41 +29,33 @@ public class Producto {
         return id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public BigDecimal getPrecio() {
-        return precio;
+    public Double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setPrecio(BigDecimal precio) {
-        this.precio = precio;
+    public void setPrecioUnitario(Double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public boolean isEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return "Producto{id=" + id + ", nombre='" + nombre + '\'' + ", precio=" + precio + ", stock=" + stock
+        return "Producto{id=" + id + ", descripcion='" + descripcion + '\'' + ", precioUnitario=" + precioUnitario
                 + ", estado=" + estado + '}';
     }
 }

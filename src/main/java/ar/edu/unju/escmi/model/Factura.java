@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "facturas")
@@ -14,7 +13,13 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha = LocalDate.now();
+    private LocalDate fecha;
+
+    private String domicilio;
+
+    private double total;
+
+    private boolean estado = true;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -23,14 +28,16 @@ public class Factura {
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleFactura> detalles = new ArrayList<>();
 
-    private boolean estado = true; // eliminación lógica
-
     public Factura() {
+        this.fecha = LocalDate.now();
+        this.total = 0.0;
+        this.estado = true;
     }
 
     public Factura(Cliente cliente) {
         this.cliente = cliente;
         this.fecha = LocalDate.now();
+        this.total = 0.0;
         this.estado = true;
     }
 
@@ -63,10 +70,18 @@ public class Factura {
         detalles.add(detalle);
     }
 
-    public BigDecimal getTotal() {
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public double calcularTotal() {
         return detalles.stream()
-                .map(DetalleFactura::getSubtotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .mapToDouble(DetalleFactura::getSubtotal)
+                .sum();
     }
 
     public boolean isEstado() {
@@ -80,6 +95,6 @@ public class Factura {
     @Override
     public String toString() {
         return "Factura{id=" + id + ", fecha=" + fecha + ", cliente=" + (cliente != null ? cliente.getId() : null)
-                + ", total=" + getTotal() + ", estado=" + estado + '}';
+                + ", total=" + calcularTotal() + ", estado=" + estado + '}';
     }
 }

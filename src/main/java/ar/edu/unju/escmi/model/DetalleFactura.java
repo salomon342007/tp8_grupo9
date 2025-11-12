@@ -1,7 +1,6 @@
 package ar.edu.unju.escmi.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "detalle_factura")
@@ -11,6 +10,10 @@ public class DetalleFactura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer cantidad;
+
+    private Double subtotal;
+
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
@@ -19,21 +22,33 @@ public class DetalleFactura {
     @JoinColumn(name = "factura_id")
     private Factura factura;
 
-    private int cantidad;
-
-    private BigDecimal precioUnitario;
-
     public DetalleFactura() {
     }
 
-    public DetalleFactura(Producto producto, int cantidad, BigDecimal precioUnitario) {
-        this.producto = producto;
+    public DetalleFactura(Integer cantidad, Double subtotal, Producto producto) {
         this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
+        this.subtotal = subtotal;
+        this.producto = producto;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
     }
 
     public Producto getProducto() {
@@ -52,29 +67,9 @@ public class DetalleFactura {
         this.factura = factura;
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public BigDecimal getPrecioUnitario() {
-        return precioUnitario;
-    }
-
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    public BigDecimal getSubtotal() {
-        return precioUnitario.multiply(java.math.BigDecimal.valueOf(cantidad));
-    }
-
     @Override
     public String toString() {
-        return "DetalleFactura{id=" + id + ", producto=" + (producto != null ? producto.getNombre() : "null")
-                + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + '}';
+        return "DetalleFactura{id=" + id + ", cantidad=" + cantidad + ", subtotal=" + subtotal + ", producto="
+                + (producto != null ? producto.getId() : null) + '}';
     }
 }

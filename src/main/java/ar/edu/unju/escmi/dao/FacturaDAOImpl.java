@@ -3,13 +3,37 @@ package ar.edu.unju.escmi.dao;
 import ar.edu.unju.escmi.model.Factura;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import java.math.BigDecimal;
 import java.util.List;
 
-public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements FacturaDAO {
+public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements FacturaDAO, IFacturaDao {
 
     public FacturaDAOImpl() {
         super(Factura.class);
+    }
+
+    @Override
+    public void guardarFactura(Factura factura) {
+        save(factura);
+    }
+
+    @Override
+    public void eliminarFactura(Factura factura) {
+        delete(factura);
+    }
+
+    @Override
+    public Factura buscarFacturaPorId(long idFactura) {
+        return findById(idFactura);
+    }
+
+    @Override
+    public List<Factura> buscarFacturas() {
+        return findAll();
+    }
+
+    @Override
+    public List<Factura> buscarFacturasConMontoMayorA(double monto) {
+        return findByTotalGreaterThan(monto);
     }
 
     @Override
@@ -24,12 +48,11 @@ public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements Fac
     }
 
     @Override
-    public List<Factura> findByTotalGreaterThan(BigDecimal amount) {
-        // JPQL can't call entity method getTotal() directly; use join and compute
+    public List<Factura> findByTotalGreaterThan(double amount) {
         EntityManager em = em();
         try {
             TypedQuery<Factura> q = em.createQuery(
-                    "SELECT DISTINCT f FROM Factura f JOIN f.detalles d GROUP BY f HAVING SUM(d.precioUnitario * d.cantidad) > :amount",
+                    "SELECT DISTINCT f FROM Factura f JOIN f.detalles d GROUP BY f HAVING SUM(d.subtotal) > :amount",
                     Factura.class);
             q.setParameter("amount", amount);
             return q.getResultList();

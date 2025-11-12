@@ -5,10 +5,21 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-public class DetalleFacturaDAOImpl extends GenericDAOImpl<DetalleFactura, Long> implements DetalleFacturaDAO {
+public class DetalleFacturaDAOImpl extends GenericDAOImpl<DetalleFactura, Long>
+        implements DetalleFacturaDAO, IDetalleFacturaDao {
 
     public DetalleFacturaDAOImpl() {
         super(DetalleFactura.class);
+    }
+
+    @Override
+    public List<DetalleFactura> obtenerDetalles() {
+        return findAll();
+    }
+
+    @Override
+    public void guardarDetalle(DetalleFactura detalle) {
+        save(detalle);
     }
 
     @Override

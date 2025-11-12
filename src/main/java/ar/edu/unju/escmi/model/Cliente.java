@@ -12,13 +12,10 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
-    private String apellido;
     private String dni;
-    private String direccion;
-    private String telefono;
-
-    private boolean estado = true; // para eliminación lógica
+    private String domicilio;
+    private double total;
+    private boolean estado = true;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Factura> facturas = new ArrayList<>();
@@ -26,33 +23,15 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nombre, String apellido, String dni, String direccion, String telefono) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+    public Cliente(String dni, String domicilio) {
         this.dni = dni;
-        this.direccion = direccion;
-        this.telefono = telefono;
+        this.domicilio = domicilio;
+        this.total = 0.0;
         this.estado = true;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
     }
 
     public String getDni() {
@@ -63,20 +42,20 @@ public class Cliente {
         this.dni = dni;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getDomicilio() {
+        return domicilio;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public double getTotal() {
+        return total;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public boolean isEstado() {
@@ -93,8 +72,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{id=" + id + ", nombre='" + nombre + '\'' + ", apellido='" + apellido + '\'' + ", dni='" + dni
-                + '\'' + ", direccion='" + direccion + '\'' + ", telefono='" + telefono + '\'' + ", estado=" + estado
-                + '}';
+        return "Cliente{id=" + id + ", dni='" + dni + '\'' + ", domicilio='" + domicilio + '\'' + ", total=" + total
+                + ", estado=" + estado + '}';
     }
 }
