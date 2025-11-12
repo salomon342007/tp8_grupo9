@@ -67,11 +67,12 @@ Todas las eliminaciones son **lógicas** (se marca `estado = false`).
 10. **Mostrar todas las facturas** → listar todas con detalles
 11. **Mostrar todos los clientes** → listar clientes activos
 12. **Mostrar facturas > $500.000** → filtrar por monto total
-0. **Salir** → terminar aplicación
+13. **Salir** → terminar aplicación
 
 ## Cómo Ejecutar
 
 ### Requisitos
+
 - **Java 21** (actualizado desde Java 11)
 - **Maven 3.9+**
 - **MySQL Server** con base de datos y usuario configurados
@@ -79,6 +80,7 @@ Todas las eliminaciones son **lógicas** (se marca `estado = false`).
 ### Pasos
 
 1. **Configurar `persistence.xml`** con tu servidor MySQL:
+
    ```xml
    <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
    <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tu_base_de_datos"/>
@@ -87,6 +89,7 @@ Todas las eliminaciones son **lógicas** (se marca `estado = false`).
    ```
 
 2. **Compilar el proyecto:**
+
    ```bash
    mvn clean package
    ```

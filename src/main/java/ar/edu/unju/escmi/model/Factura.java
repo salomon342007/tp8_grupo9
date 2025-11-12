@@ -53,6 +53,14 @@ public class Factura {
         this.fecha = fecha;
     }
 
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
