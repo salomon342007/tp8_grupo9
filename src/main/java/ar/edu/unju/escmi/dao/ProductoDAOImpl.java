@@ -63,6 +63,8 @@ public class ProductoDAOImpl extends GenericDAOImpl<Producto, Long> implements P
         update(entity);
     }
 
+
+    
     @Override
     public void modificarProducto(Producto producto) {
         update(producto);
