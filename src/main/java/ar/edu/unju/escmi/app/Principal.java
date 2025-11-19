@@ -90,8 +90,10 @@ public class Principal {
         try {
             String descripcion = InputUtil.inputString("Descripción del producto: ");
             double precio = InputUtil.inputDouble("Precio unitario: ");
+            int cantidad = InputUtil.inputInt("Cantidad disponible: ");
 
             Producto p = new Producto(descripcion, precio);
+            p.setCantidad(cantidad);
             productoDao.guardarProducto(p);
             System.out.println("✓ Producto guardado exitosamente.");
         } catch (Exception e) {
@@ -103,8 +105,19 @@ public class Principal {
         try {
             System.out.println("\n--- Nueva Factura ---");
             mostrarTodosClientes();
-            long clienteId = InputUtil.inputLong("ID del cliente: ");
-            Cliente cliente = clienteDao.buscarPorDni(String.valueOf(clienteId));
+            String clienteBusqueda = InputUtil.inputString("DNI o ID del cliente: ");
+            Cliente cliente = null;
+            // Intentar buscar por ID si el usuario ingresó un número
+            try {
+                long clienteId = Long.parseLong(clienteBusqueda);
+                List<Cliente> clientes = clienteDao.obtenerClientes();
+                cliente = clientes.stream().filter(cl -> cl.getId() == clienteId).findFirst().orElse(null);
+            } catch (NumberFormatException ignored) {
+                // no es un número, seguiremos buscando por DNI
+            }
+            if (cliente == null) {
+                cliente = clienteDao.buscarPorDni(clienteBusqueda);
+            }
             if (cliente == null) {
                 System.out.println("✗ Cliente no encontrado.");
                 return;
@@ -133,10 +146,21 @@ public class Principal {
                     continue;
                 }
 
+                Integer stock = producto.getCantidad();
+                if (stock == null) stock = 0;
+                if (stock < cantidad) {
+                    System.out.println("✗ Stock insuficiente. Stock actual: " + stock);
+                    continue;
+                }
+
                 double subtotal = cantidad * producto.getPrecioUnitario();
                 DetalleFactura detalle = new DetalleFactura(cantidad, subtotal, producto);
                 factura.addDetalle(detalle);
                 totalFactura += subtotal;
+
+                // Descontar stock y actualizar el producto
+                producto.setCantidad(stock - cantidad);
+                productoDao.modificarProducto(producto);
             }
 
             if (factura.getDetalles().isEmpty()) {
