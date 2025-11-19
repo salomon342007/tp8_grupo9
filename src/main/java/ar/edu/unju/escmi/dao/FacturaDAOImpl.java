@@ -18,7 +18,9 @@ public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements Fac
 
     @Override
     public void eliminarFactura(Factura factura) {
-        delete(factura);
+        // Eliminación lógica: marcar estado=false
+        factura.setEstado(false);
+        update(factura);
     }
 
     @Override
@@ -40,8 +42,9 @@ public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements Fac
     public List<Factura> buscarFacturas() {
         EntityManager em = em();
         try {
+            // Solo devolver facturas activas (estado = true)
             TypedQuery<Factura> q = em.createQuery(
-                    "SELECT DISTINCT f FROM Factura f LEFT JOIN FETCH f.detalles LEFT JOIN FETCH f.cliente",
+                    "SELECT DISTINCT f FROM Factura f LEFT JOIN FETCH f.detalles LEFT JOIN FETCH f.cliente WHERE f.estado = true",
                     Factura.class);
             return q.getResultList();
         } finally {
@@ -69,8 +72,9 @@ public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements Fac
     public List<Factura> findByTotalGreaterThan(double amount) {
         EntityManager em = em();
         try {
+            // Solo considerar facturas activas
             TypedQuery<Factura> q = em.createQuery(
-                    "SELECT DISTINCT f FROM Factura f JOIN f.detalles d GROUP BY f HAVING SUM(d.subtotal) > :amount",
+                    "SELECT DISTINCT f FROM Factura f JOIN f.detalles d WHERE f.estado = true GROUP BY f HAVING SUM(d.subtotal) > :amount",
                     Factura.class);
             q.setParameter("amount", amount);
             return q.getResultList();
@@ -81,7 +85,7 @@ public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements Fac
 
     @Override
     public void delete(Factura entity) {
-        entity.setEstado(false);
-        update(entity);
+        // Realiza eliminación física en vez de eliminación lógica.
+        super.delete(entity);
     }
 }

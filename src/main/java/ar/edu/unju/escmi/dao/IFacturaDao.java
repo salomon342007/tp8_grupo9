@@ -7,7 +7,7 @@ public interface IFacturaDao {
     void guardarFactura(Factura factura);
 
     void eliminarFactura(Factura factura);
-
+    
     Factura buscarFacturaPorId(long idFactura);
 
     List<Factura> buscarFacturas();

@@ -61,7 +61,7 @@ public class Principal {
         System.out.println("2- Alta de producto");
         System.out.println("3- Realizar venta (Alta de factura)");
         System.out.println("4- Buscar factura por ID");
-        System.out.println("5- Eliminar factura (lógica)");
+        System.out.println("5- Eliminar factura");
         System.out.println("6- Eliminar producto (lógica)");
         System.out.println("7- Modificar datos de cliente");
         System.out.println("8- Modificar precio de producto");
@@ -195,7 +195,7 @@ public class Principal {
 
     private static void eliminarFactura() {
         try {
-            long id = InputUtil.inputLong("ID de factura a eliminar (lógica): ");
+            long id = InputUtil.inputLong("ID de factura a eliminar: ");
             Factura f = facturaDao.buscarFacturaPorId(id);
             if (f == null) {
                 System.out.println("✗ Factura no encontrada.");
