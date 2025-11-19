@@ -8,7 +8,7 @@ Stefano Modena – (salomon342007)
 
 Bruno Fernández - (brunofernandez877)
 
-Jorge Fernández – (Colturas)
+Jorge Lautaro Fernández – (Colturas)
 
 Jamal Bazán – (jamaledm)
 
