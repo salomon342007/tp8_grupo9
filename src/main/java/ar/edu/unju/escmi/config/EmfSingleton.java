@@ -3,15 +3,7 @@ package ar.edu.unju.escmi.config;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-/**
- * Singleton que expone un EntityManagerFactory para la unidad de persistencia
- * "tp8PU".
- *
- * Nota: El contenido fue generado como implementación típica cuando el archivo
- * original
- * no está disponible en el repositorio. Ajustar si tienes una versión
- * específica.
- */
+
 public class EmfSingleton {
 
     private static final EntityManagerFactory emf = buildEntityManagerFactory();
