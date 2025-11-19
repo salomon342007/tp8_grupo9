@@ -23,12 +23,30 @@ public class FacturaDAOImpl extends GenericDAOImpl<Factura, Long> implements Fac
 
     @Override
     public Factura buscarFacturaPorId(long idFactura) {
-        return findById(idFactura);
+        EntityManager em = em();
+        try {
+            TypedQuery<Factura> q = em.createQuery(
+                    "SELECT f FROM Factura f LEFT JOIN FETCH f.detalles LEFT JOIN FETCH f.cliente WHERE f.id = :id",
+                    Factura.class);
+            q.setParameter("id", idFactura);
+            List<Factura> res = q.getResultList();
+            return res.isEmpty() ? null : res.get(0);
+        } finally {
+            em.close();
+        }
     }
 
     @Override
     public List<Factura> buscarFacturas() {
-        return findAll();
+        EntityManager em = em();
+        try {
+            TypedQuery<Factura> q = em.createQuery(
+                    "SELECT DISTINCT f FROM Factura f LEFT JOIN FETCH f.detalles LEFT JOIN FETCH f.cliente",
+                    Factura.class);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     @Override

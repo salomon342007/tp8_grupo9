@@ -62,4 +62,11 @@ public class ProductoDAOImpl extends GenericDAOImpl<Producto, Long> implements P
         entity.setEstado(false);
         update(entity);
     }
+
+
+    
+    @Override
+    public void modificarProducto(Producto producto) {
+        update(producto);
+    }
 }

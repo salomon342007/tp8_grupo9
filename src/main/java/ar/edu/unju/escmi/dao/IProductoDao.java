@@ -15,4 +15,6 @@ public interface IProductoDao {
     Producto buscarPorId(Long id);
 
     List<Producto> obtenerProductos();
+
+    void modificarProducto(Producto producto);
 }

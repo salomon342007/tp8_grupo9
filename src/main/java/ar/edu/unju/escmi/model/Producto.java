@@ -15,6 +15,8 @@ public class Producto {
     private Double precioUnitario;
 
     private Boolean estado = true;
+    
+    private Integer cantidad = 0;
 
     public Producto() {
     }
@@ -23,6 +25,14 @@ public class Producto {
         this.descripcion = descripcion;
         this.precioUnitario = precioUnitario;
         this.estado = true;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
     public Long getId() {
@@ -56,6 +66,6 @@ public class Producto {
     @Override
     public String toString() {
         return "Producto{id=" + id + ", descripcion='" + descripcion + '\'' + ", precioUnitario=" + precioUnitario
-                + ", estado=" + estado + '}';
+            + ", cantidad=" + cantidad + ", estado=" + estado + '}';
     }
 }
