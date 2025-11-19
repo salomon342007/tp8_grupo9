@@ -14,7 +14,8 @@ public class Cliente {
 
     private String dni;
     private String domicilio;
-    private double total;
+    private String nombre;
+    private String apellido;
     private boolean estado = true;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -26,7 +27,8 @@ public class Cliente {
     public Cliente(String dni, String domicilio) {
         this.dni = dni;
         this.domicilio = domicilio;
-        this.total = 0.0;
+        this.nombre = "";
+        this.apellido = "";
         this.estado = true;
     }
 
@@ -50,12 +52,19 @@ public class Cliente {
         this.domicilio = domicilio;
     }
 
-    public double getTotal() {
-        return total;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+  public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public boolean isEstado() {
@@ -72,7 +81,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{id=" + id + ", dni='" + dni + '\'' + ", domicilio='" + domicilio + '\'' + ", total=" + total
-                + ", estado=" + estado + '}';
+        return "Cliente{id=" + id + ", dni='" + dni + '\'' + ", domicilio='" + domicilio + '\'' + ", nombre='" + nombre + '\'' + ", apellido='" + apellido + '\'' +
+                ", estado=" + estado + '}';
     }
 }

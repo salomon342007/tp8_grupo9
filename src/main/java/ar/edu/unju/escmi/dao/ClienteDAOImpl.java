@@ -23,7 +23,14 @@ public class ClienteDAOImpl extends GenericDAOImpl<Cliente, Long> implements Cli
 
     @Override
     public List<Cliente> obtenerClientes() {
-        return findAll();
+        // Devolver solo clientes activos
+        EntityManager em = em();
+        try {
+            TypedQuery<Cliente> q = em.createQuery("SELECT c FROM Cliente c WHERE c.estado = true", Cliente.class);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -48,6 +55,13 @@ public class ClienteDAOImpl extends GenericDAOImpl<Cliente, Long> implements Cli
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public void eliminarCliente(Cliente cliente) {
+        // Eliminación lógica: marcar estado=false
+        cliente.setEstado(false);
+        update(cliente);
     }
 
     @Override

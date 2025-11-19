@@ -11,4 +11,6 @@ public interface IClienteDao {
     List<Cliente> obtenerClientes();
 
     Cliente buscarPorDni(String dni);
+
+    void eliminarCliente(Cliente cliente);
 }

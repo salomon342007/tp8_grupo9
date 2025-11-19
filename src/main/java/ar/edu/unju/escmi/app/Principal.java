@@ -41,7 +41,7 @@ public class Principal {
                     case 6 -> eliminarProducto();
                     case 7 -> modificarCliente();
                     case 8 -> modificarPrecioProducto();
-                    case 9 -> eliminarProducto();
+                    case 9 -> eliminarCliente();
                     case 10 -> mostrarTodasFacturas();
                     case 11 -> mostrarTodosClientes();
                     case 12 -> mostrarFacturasMayorA500000();
@@ -65,7 +65,7 @@ public class Principal {
         System.out.println("6- Eliminar producto (lógica)");
         System.out.println("7- Modificar datos de cliente");
         System.out.println("8- Modificar precio de producto");
-        System.out.println("9- Eliminar producto (lógica)");
+        System.out.println("9- Eliminar cliente");
         System.out.println("10- Mostrar todas las facturas");
         System.out.println("11- Mostrar todos los clientes");
         System.out.println("12- Mostrar facturas > $500.000");
@@ -77,8 +77,12 @@ public class Principal {
         try {
             String dni = InputUtil.inputString("DNI: ");
             String domicilio = InputUtil.inputString("Domicilio: ");
+            String nombre = InputUtil.inputString("Nombre: ");
+            String apellido = InputUtil.inputString("Apellido: ");
 
             Cliente c = new Cliente(dni, domicilio);
+            c.setNombre(nombre);
+            c.setApellido(apellido);
             clienteDao.guardarCliente(c);
             System.out.println("✓ Cliente guardado exitosamente.");
         } catch (Exception e) {
@@ -205,6 +209,22 @@ public class Principal {
             System.out.println("✓ Factura marcada como eliminada.");
         } catch (Exception e) {
             System.out.println("✗ Error al eliminar factura: " + e.getMessage());
+        }
+    }
+
+    private static void eliminarCliente() {
+        try {
+            long id = InputUtil.inputLong("ID de cliente a eliminar: ");
+            List<Cliente> clientes = clienteDao.obtenerClientes();
+            Cliente c = clientes.stream().filter(cl -> cl.getId() == id).findFirst().orElse(null);
+            if (c == null) {
+                System.out.println("✗ Cliente no encontrado.");
+                return;
+            }
+            clienteDao.eliminarCliente(c);
+            System.out.println("✓ Cliente marcado como eliminado.");
+        } catch (Exception e) {
+            System.out.println("✗ Error al eliminar cliente: " + e.getMessage());
         }
     }
 
